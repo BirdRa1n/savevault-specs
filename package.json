@@ -2,6 +2,7 @@
   "name": "saveforge-specs",
   "version": "0.1.0",
   "private": true,
+  "license": "MIT",
   "description": "Normative specifications and JSON Schemas for the SaveForge ecosystem",
   "type": "module",
   "engines": {

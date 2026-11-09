@@ -49,3 +49,7 @@ See [VERSIONING.md](VERSIONING.md). Changes are recorded in [CHANGELOG.md](CHANG
 ## Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md).
+
+## License
+
+[MIT](LICENSE). Profile *data* published in registries carries its own license, declared per profile in `provenance.license` (see `profile/SPEC.md` §8).
