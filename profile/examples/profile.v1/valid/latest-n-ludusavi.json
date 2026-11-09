@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "id": "example-rotating-slots",
+  "name": "Example game with rotating save slots",
+  "revision": 1,
+  "identifiers": { "executables": ["example.exe"], "installDirNames": ["Example Game"] },
+  "saves": [
+    {
+      "id": "autosaves",
+      "tags": ["save"],
+      "paths": ["<base>/saves/autosave_*", "<winDocuments>/My Games/Example Game/saves/*.sav"]
+    }
+  ],
+  "backup": {
+    "maxBytes": 524288000,
+    "consistentGroups": [["*.db", "*.db-wal"]]
+  },
+  "mechanism": { "type": "latest-n", "params": { "n": 5, "sortBy": "mtime" } },
+  "provenance": {
+    "source": "ludusavi",
+    "license": "CC-BY-NC-SA-3.0",
+    "basedOn": { "ludusavi": "Example Game" }
+  }
+}

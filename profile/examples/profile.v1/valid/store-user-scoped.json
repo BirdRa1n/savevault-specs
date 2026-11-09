@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "id": "example-steam-account-game",
+  "name": "Example game with per-account saves",
+  "revision": 1,
+  "identifiers": { "steam": [999999] },
+  "saves": [
+    {
+      "id": "progress",
+      "tags": ["save"],
+      "when": { "os": "windows", "store": "steam" },
+      "paths": ["<winAppData>/ExampleStudio/ExampleGame/<storeUserId>/*.sl2"]
+    }
+  ],
+  "backup": { "requireGameClosed": true, "cloudSync": ["steam"] },
+  "mechanism": { "type": "store-user-scoped", "params": { "store": "steam" } },
+  "compatibility": { "minAppVersion": "0.2.0" },
+  "provenance": { "source": "saveforge", "license": "CC-BY-SA-4.0" }
+}

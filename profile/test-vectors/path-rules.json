@@ -1,0 +1,72 @@
+{
+  "$comment": "Conformance vectors for profile/path-rules.md. 'rule' is the FIRST violation an implementation must report for invalid inputs.",
+  "version": 1,
+  "savePaths": [
+    { "input": "<winLocalAppDataLow>/Team Cherry/Hollow Knight/user*.dat", "valid": true },
+    { "input": "<home>/.local/share/Example/saves", "valid": true },
+    { "input": "<xdgConfig>/unity3d/Studio/Game/*.sav", "valid": true },
+    { "input": "<winAppData>/Studio/Game/<storeUserId>/*.sl2", "valid": true },
+    { "input": "<winDocuments>/My Games/Game/save_<storeUserId>_?.dat", "valid": true },
+    { "input": "<base>/saves/*.sav", "valid": true },
+    { "input": "<base>/*.sav", "valid": true },
+    { "input": "<base>/saves/**", "valid": true },
+    { "input": "<macAppSupport>/Studio/Game/**/*.json", "valid": true },
+    { "input": "<home>/Games/**", "valid": true, "$comment": "'**' alone does not trigger P6 without a literal hit" },
+    { "input": "<winDocuments>/My Games/[Brackets] Game/save.dat", "valid": true },
+
+    { "input": "", "valid": false, "rule": "P1" },
+    { "input": "<home>\\Saves\\a.sav", "valid": false, "rule": "P1" },
+    { "input": "<home>/Saves/", "valid": false, "rule": "P1" },
+    { "input": "<home>//Saves", "valid": false, "rule": "P1" },
+    { "input": "~/Saves/a.sav", "valid": false, "rule": "P1" },
+    { "input": "<home>/%APPDATA%/Game", "valid": false, "rule": "P1" },
+    { "input": "<home>/$HOME/Game", "valid": false, "rule": "P1" },
+
+    { "input": "C:/Users/me/Saves/a.sav", "valid": false, "rule": "P2" },
+    { "input": "/home/me/Saves/a.sav", "valid": false, "rule": "P2" },
+    { "input": "<winDir>/System32/config", "valid": false, "rule": "P2" },
+    { "input": "<storeUserId>/Saves", "valid": false, "rule": "P2" },
+    { "input": "<home>Saves/a.sav", "valid": false, "rule": "P2" },
+
+    { "input": "<home>/Game/<unknown>/a.sav", "valid": false, "rule": "P3" },
+    { "input": "<home>/Game/<home>/a.sav", "valid": false, "rule": "P3" },
+    { "input": "<home>/Game/a>b.sav", "valid": false, "rule": "P3" },
+
+    { "input": "<home>/Game/../.ssh/id_rsa", "valid": false, "rule": "P4" },
+    { "input": "<base>/./saves", "valid": false, "rule": "P4" },
+
+    { "input": "<home>", "valid": false, "rule": "P5" },
+    { "input": "<home>/**", "valid": false, "rule": "P5" },
+    { "input": "<home>/*", "valid": false, "rule": "P5" },
+    { "input": "<winAppData>/*/save.dat", "valid": false, "rule": "P5" },
+    { "input": "<winDocuments>/<storeUserId>/save.dat", "valid": false, "rule": "P5" },
+    { "input": "<base>", "valid": false, "rule": "P5" },
+    { "input": "<base>/**", "valid": false, "rule": "P5" },
+
+    { "input": "<home>/.ssh/id_rsa", "valid": false, "rule": "P6" },
+    { "input": "<home>/.SSH/config", "valid": false, "rule": "P6" },
+    { "input": "<winAppData>/Microsoft/Credentials/x", "valid": false, "rule": "P6" },
+    { "input": "<winAppData>/Microsoft/**", "valid": false, "rule": "P6" },
+    { "input": "<winLocalAppData>/Google/Chrome/User Data", "valid": false, "rule": "P6" },
+    { "input": "<home>/.config/google-chrome/Default", "valid": false, "rule": "P6" },
+    { "input": "<winAppData>/Mozilla/Firefox/Profiles", "valid": false, "rule": "P6" },
+    { "input": "<macAppSupport>/Bitwarden/data.json", "valid": false, "rule": "P6" },
+    { "input": "<home>/Library/Keychains/login.keychain-db", "valid": false, "rule": "P6" }
+  ],
+  "registryKeys": [
+    { "input": "HKCU/Software/Team Cherry/Hollow Knight", "valid": true },
+    { "input": "HKCU/SOFTWARE/Studio/Game", "valid": true },
+
+    { "input": "", "valid": false, "rule": "K1" },
+    { "input": "HKCU\\Software\\Studio", "valid": false, "rule": "K1" },
+    { "input": "HKCU/Software/Studio/*", "valid": false, "rule": "K1" },
+    { "input": "HKCU/Software/Studio/", "valid": false, "rule": "K1" },
+
+    { "input": "HKLM/Software/Studio/Game", "valid": false, "rule": "K2" },
+    { "input": "HKEY_CURRENT_USER/Software/Studio", "valid": false, "rule": "K2" },
+    { "input": "HKCU/Software", "valid": false, "rule": "K2" },
+    { "input": "HKCU/Environment/Path", "valid": false, "rule": "K2" },
+
+    { "input": "HKCU/Software/Studio/../Microsoft", "valid": false, "rule": "K3" }
+  ]
+}

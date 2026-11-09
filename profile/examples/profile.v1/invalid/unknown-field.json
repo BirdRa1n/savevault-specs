@@ -1,0 +1,1 @@
+{ "schemaVersion": 1, "id": "x-game", "name": "X", "revision": 1, "identifiers": { "steam": [1] }, "homepage": "https://example.com", "saves": [{ "id": "progress", "tags": ["save"],  "paths": ["<home>/X/a.sav"] }], "mechanism": { "type": "standard" }, "provenance": { "source": "saveforge", "license": "CC-BY-SA-4.0" } }

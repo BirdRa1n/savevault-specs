@@ -1,0 +1,17 @@
+{
+  "name": "saveforge-specs",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Normative specifications and JSON Schemas for the SaveForge ecosystem",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "check": "node scripts/check.mjs"
+  },
+  "devDependencies": {
+    "ajv": "8.17.1",
+    "ajv-formats": "3.0.1"
+  }
+}

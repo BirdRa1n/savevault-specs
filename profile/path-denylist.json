@@ -1,0 +1,32 @@
+{
+  "$comment": "Sensitive locations that profiles MUST NOT reference (rule P6, profile/path-rules.md). Each entry is a sequence of path segments compared case-insensitively. Adding an entry is an additive change; removing one requires review.",
+  "sequences": [
+    [".ssh"],
+    [".gnupg"],
+    [".aws"],
+    [".azure"],
+    [".kube"],
+    [".docker"],
+    [".password-store"],
+    [".mozilla"],
+    [".config", "google-chrome"],
+    [".config", "chromium"],
+    [".config", "BraveSoftware"],
+    ["Microsoft", "Credentials"],
+    ["Microsoft", "Protect"],
+    ["Microsoft", "Vault"],
+    ["Microsoft", "Edge"],
+    ["Google", "Chrome"],
+    ["Mozilla", "Firefox"],
+    ["BraveSoftware"],
+    ["Keychains"],
+    ["1Password"],
+    ["Bitwarden"],
+    ["KeePass"],
+    ["KeePassXC"],
+    ["Electrum"],
+    ["Exodus"],
+    ["Ethereum"],
+    ["Bitcoin"]
+  ]
+}

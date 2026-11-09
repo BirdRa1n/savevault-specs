@@ -1,0 +1,290 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://saveforge.github.io/saveforge-specs/schemas/profile/profile.v1.schema.json",
+  "title": "SaveForge game profile v1",
+  "description": "Declarative description of where a game stores its saves and how to back them up. Normative text: profile/SPEC.md.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "id", "name", "revision", "identifiers", "mechanism", "provenance"],
+  "anyOf": [
+    { "properties": { "saves": true }, "required": ["saves"] },
+    { "properties": { "registry": true }, "required": ["registry"] }
+  ],
+  "properties": {
+    "schemaVersion": {
+      "description": "Profile schema major version.",
+      "const": 1
+    },
+    "id": {
+      "description": "Stable profile identifier. Never reused for another game.",
+      "$ref": "../common/defs.v1.schema.json#/$defs/slug"
+    },
+    "name": {
+      "description": "Display name of the game.",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200
+    },
+    "revision": {
+      "description": "Incremented on every published change to this profile.",
+      "type": "integer",
+      "minimum": 1
+    },
+    "identifiers": { "$ref": "#/$defs/identifiers" },
+    "saves": {
+      "description": "File-system save rules.",
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 64,
+      "items": { "$ref": "#/$defs/saveRule" }
+    },
+    "registry": {
+      "description": "Windows registry rules. Only applied on Windows (or inside a Wine/Proton prefix).",
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 16,
+      "items": { "$ref": "#/$defs/registryRule" }
+    },
+    "exclude": {
+      "description": "Globs, relative to any matched directory, for files that MUST NOT be backed up.",
+      "type": "array",
+      "maxItems": 64,
+      "items": { "type": "string", "minLength": 1, "maxLength": 256 }
+    },
+    "backup": { "$ref": "#/$defs/backupOptions" },
+    "mechanism": { "$ref": "#/$defs/mechanism" },
+    "compatibility": { "$ref": "#/$defs/compatibility" },
+    "provenance": { "$ref": "#/$defs/provenance" }
+  },
+  "$defs": {
+    "identifiers": {
+      "description": "Ways to recognize an installed copy of the game. At least one entry is required.",
+      "type": "object",
+      "additionalProperties": false,
+      "minProperties": 1,
+      "properties": {
+        "steam": {
+          "description": "Steam app IDs.",
+          "type": "array", "items": { "type": "integer", "minimum": 1 }, "uniqueItems": true
+        },
+        "gog": {
+          "description": "GOG product IDs.",
+          "type": "array", "items": { "type": "integer", "minimum": 1 }, "uniqueItems": true
+        },
+        "epic": {
+          "description": "Epic Games Store app names (catalog item identifiers).",
+          "type": "array", "items": { "type": "string", "minLength": 1, "maxLength": 128 }, "uniqueItems": true
+        },
+        "executables": {
+          "description": "Executable file names (no directories), compared case-insensitively.",
+          "type": "array",
+          "items": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[^/\\\\]+$" },
+          "uniqueItems": true
+        },
+        "installDirNames": {
+          "description": "Typical installation directory names, compared after normalization.",
+          "type": "array",
+          "items": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[^/\\\\]+$" },
+          "uniqueItems": true
+        }
+      }
+    },
+    "condition": {
+      "description": "Restricts a rule to a platform or store. Omitted keys match everything.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "os": { "$ref": "../common/defs.v1.schema.json#/$defs/os" },
+        "store": { "$ref": "../common/defs.v1.schema.json#/$defs/store" }
+      }
+    },
+    "tags": {
+      "description": "What the matched data is. 'save' is progress; 'config' is settings.",
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string", "enum": ["save", "config"] },
+      "uniqueItems": true
+    },
+    "ruleId": {
+      "description": "Logical name of a rule. Rules for different platforms that hold the same data SHOULD share an id.",
+      "$ref": "../common/defs.v1.schema.json#/$defs/slug"
+    },
+    "saveRule": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "tags", "paths"],
+      "properties": {
+        "id": { "$ref": "#/$defs/ruleId" },
+        "tags": { "$ref": "#/$defs/tags" },
+        "when": { "$ref": "#/$defs/condition" },
+        "paths": {
+          "description": "Path templates. Each MUST satisfy profile/path-rules.md.",
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 32,
+          "items": { "$ref": "../common/defs.v1.schema.json#/$defs/templatePath" },
+          "uniqueItems": true
+        }
+      }
+    },
+    "registryRule": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "tags", "keys"],
+      "properties": {
+        "id": { "$ref": "#/$defs/ruleId" },
+        "tags": { "$ref": "#/$defs/tags" },
+        "keys": {
+          "description": "Registry keys, '/'-separated, under HKCU/Software. Each MUST satisfy profile/path-rules.md.",
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 16,
+          "items": { "type": "string", "minLength": 1, "maxLength": 256 },
+          "uniqueItems": true
+        }
+      }
+    },
+    "backupOptions": {
+      "description": "Options that change how backups are taken.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "requireGameClosed": {
+          "description": "If true, backups are refused while the game is running.",
+          "type": "boolean",
+          "default": false
+        },
+        "processNames": {
+          "description": "Process names that indicate the game is running (case-insensitive).",
+          "type": "array",
+          "items": { "type": "string", "minLength": 1, "maxLength": 128 },
+          "uniqueItems": true
+        },
+        "cloudSync": {
+          "description": "Stores whose own cloud sync covers this game. Drives the launcher-cloud conflict policy.",
+          "type": "array",
+          "items": { "$ref": "../common/defs.v1.schema.json#/$defs/store" },
+          "uniqueItems": true
+        },
+        "maxBytes": {
+          "description": "Expected upper bound of one backup. Above it, the app asks for confirmation.",
+          "type": "integer",
+          "minimum": 1
+        },
+        "consistentGroups": {
+          "description": "Sets of globs whose matches MUST be captured together in one consistent read (e.g. a database and its journal).",
+          "type": "array",
+          "items": {
+            "type": "array",
+            "minItems": 2,
+            "items": { "type": "string", "minLength": 1, "maxLength": 256 }
+          }
+        }
+      }
+    },
+    "mechanism": {
+      "description": "Built-in backup strategy implemented by the Desktop. Profiles never contain code.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type"],
+      "properties": {
+        "type": {
+          "description": "Mechanism identifier. Readers MUST skip (with a warning) profiles whose type they do not know.",
+          "type": "string",
+          "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+        },
+        "params": {
+          "description": "Mechanism-specific parameters. See profile/mechanisms.md.",
+          "type": "object"
+        }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "type": { "const": "standard" } } },
+          "then": { "not": { "properties": { "params": true }, "required": ["params"] } }
+        },
+        {
+          "if": { "properties": { "type": { "const": "latest-n" } } },
+          "then": {
+            "required": ["params"],
+            "properties": {
+              "params": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["n"],
+                "properties": {
+                  "n": { "type": "integer", "minimum": 1, "maximum": 100 },
+                  "sortBy": { "type": "string", "enum": ["mtime", "name"], "default": "mtime" }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": { "properties": { "type": { "const": "store-user-scoped" } } },
+          "then": {
+            "required": ["params"],
+            "properties": {
+              "params": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["store"],
+                "properties": {
+                  "store": { "type": "string", "enum": ["steam", "epic", "gog"] }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "compatibility": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "minAppVersion": {
+          "description": "Oldest SaveForge Desktop version that can apply this profile.",
+          "$ref": "../common/defs.v1.schema.json#/$defs/semver"
+        },
+        "gameVersions": {
+          "description": "Informative range of game versions the profile was tested with.",
+          "type": "string",
+          "maxLength": 64
+        }
+      }
+    },
+    "provenance": {
+      "description": "Where the profile data came from. Drives licensing and attribution.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source", "license"],
+      "properties": {
+        "source": {
+          "description": "Origin of the data.",
+          "type": "string",
+          "enum": ["saveforge", "ludusavi", "local"]
+        },
+        "license": {
+          "description": "SPDX license identifier of the profile data.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64
+        },
+        "basedOn": {
+          "description": "Upstream entries this profile derives from.",
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "ludusavi": { "description": "Game title in the Ludusavi manifest.", "type": "string", "minLength": 1 }
+          }
+        },
+        "contributors": {
+          "description": "Contributor references, e.g. 'community:<uuid>' or 'github:<login>'.",
+          "type": "array",
+          "items": { "type": "string", "pattern": "^(community|github):[A-Za-z0-9_.-]+$" },
+          "uniqueItems": true
+        }
+      }
+    }
+  }
+}

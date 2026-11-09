@@ -1,0 +1,24 @@
+{
+  "$comment": "Machine-readable list of path placeholders. Normative text: profile/placeholders.md. Do not add entries without updating both files.",
+  "root": [
+    { "name": "home", "scope": "user", "os": null },
+    { "name": "base", "scope": "game", "os": null },
+    { "name": "winAppData", "scope": "user", "os": "windows" },
+    { "name": "winLocalAppData", "scope": "user", "os": "windows" },
+    { "name": "winLocalAppDataLow", "scope": "user", "os": "windows" },
+    { "name": "winDocuments", "scope": "user", "os": "windows" },
+    { "name": "winSavedGames", "scope": "user", "os": "windows" },
+    { "name": "winPublic", "scope": "user", "os": "windows" },
+    { "name": "winProgramData", "scope": "user", "os": "windows" },
+    { "name": "xdgData", "scope": "user", "os": "linux" },
+    { "name": "xdgConfig", "scope": "user", "os": "linux" },
+    { "name": "macAppSupport", "scope": "user", "os": "macos" },
+    { "name": "macPreferences", "scope": "user", "os": "macos" },
+    { "name": "macContainers", "scope": "user", "os": "macos" }
+  ],
+  "segment": [
+    { "name": "storeUserId" },
+    { "name": "storeGameId" },
+    { "name": "osUserName" }
+  ]
+}
