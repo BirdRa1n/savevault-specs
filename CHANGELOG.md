@@ -6,6 +6,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 ## [Unreleased]
 
 ### Clarified
+- `profile`: `<storeUserId>` for Steam covers both the 32-bit account ID and the 64-bit SteamID.
 - `profile`: directory matches are recursive, symbolic links are never followed or captured, and `exclude` matching rules are defined.
 
 ### Added

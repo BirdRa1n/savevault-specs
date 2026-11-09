@@ -33,7 +33,7 @@ These placeholders **MAY** appear inside any segment after the first, for exampl
 
 | Placeholder | Value |
 |---|---|
-| `<storeUserId>` | User ID in the store that installed the game. For Steam, the 32-bit account ID used in `userdata/`. When several accounts exist, the path expands once per account. |
+| `<storeUserId>` | User ID in the store that installed the game. For Steam, **both** forms of every account found in `userdata/` are tried: the 32-bit account ID (as in `userdata/<id>`) and the 64-bit SteamID (account ID + 76561197960265728), since games use either. The path expands once per value; only values that exist on disk produce matches. |
 | `<storeGameId>` | ID of the game in the store that installed it, for example the Steam app ID. |
 | `<osUserName>` | Login name of the current OS user. |
 
