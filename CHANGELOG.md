@@ -5,6 +5,9 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 
 ## [Unreleased]
 
+### Clarified
+- `profile`: directory matches are recursive, symbolic links are never followed or captured, and `exclude` matching rules are defined.
+
 ### Added
 - Repository structure, contribution rules and validation tooling (`npm run check`).
 - `common`: shared definitions (hashes, UUIDs, timestamps, slugs, template paths, OS and store enums).

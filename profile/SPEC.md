@@ -24,7 +24,7 @@ A YAML profile **MUST** convert to JSON that validates against the schema. Autho
 | `revision` | yes | Starts at 1. The registry **MUST** increment it on every published change. |
 | `identifiers` | yes | How to recognize an installation (§3). |
 | `saves` / `registry` | at least one | File rules (§4) and Windows registry rules (§5). |
-| `exclude` | no | Globs of files never backed up, matched relative to each matched directory. |
+| `exclude` | no | Globs of files never backed up (matching rules in §4.1). |
 | `backup` | no | Backup options (§6). |
 | `mechanism` | yes | Built-in strategy (§7). |
 | `compatibility` | no | `minAppVersion` and informative `gameVersions`. |
@@ -65,6 +65,12 @@ Each entry in `saves` has the following fields:
   - Windows placeholders also apply inside Wine/Proton prefixes on Linux (see [`placeholders.md`](placeholders.md));
   - if `when.os` contradicts the placeholder's OS, the profile is invalid.
 - Matching is case-insensitive on Windows and macOS, and case-sensitive on Linux. Inside a Wine/Proton prefix it is case-insensitive.
+- A path that matches a **directory** includes every file below it, recursively. A path that matches a file includes that file.
+- Symbolic links, junctions and other reparse points are **never followed or captured**. Consumers skip them, both while walking and when they appear as matches.
+- `exclude` patterns use the same glob syntax:
+  - A pattern containing `/` is matched against the file's path relative to the root placeholder's directory.
+  - A pattern without `/` is matched against the file name at any depth.
+  - The OS's case rules apply.
 
 ## 5. Registry rules
 

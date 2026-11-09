@@ -46,7 +46,7 @@
       "items": { "$ref": "#/$defs/registryRule" }
     },
     "exclude": {
-      "description": "Globs, relative to any matched directory, for files that MUST NOT be backed up.",
+      "description": "Globs for files that MUST NOT be backed up. Patterns with '/' match the path relative to the root placeholder directory; patterns without '/' match the file name at any depth.",
       "type": "array",
       "maxItems": 64,
       "items": { "type": "string", "minLength": 1, "maxLength": 256 }
