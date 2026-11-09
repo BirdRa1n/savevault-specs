@@ -1,0 +1,56 @@
+{
+  "format": "saveforge.gamesave",
+  "formatVersion": 1,
+  "exportId": "0193f2aa-1111-7222-8333-444455556666",
+  "createdAt": "2026-11-09T14:03:22Z",
+  "createdBy": {
+    "app": "SaveForge Desktop",
+    "version": "0.2.0"
+  },
+  "mode": "full",
+  "source": {
+    "os": "windows"
+  },
+  "games": [
+    {
+      "gameId": "local:2f6c1a9e-4b3d-4e2f-9a8b-7c6d5e4f3a2b",
+      "name": "My indie game",
+      "snapshots": [
+        {
+          "schemaVersion": 1,
+          "type": "snapshot",
+          "snapshotId": "0193f1c2-0000-7000-8000-000000000002",
+          "parentId": "0193f0a2-1b2c-7d3e-9f40-b1c2d3e4f5a6",
+          "gameId": "local:2f6c1a9e-4b3d-4e2f-9a8b-7c6d5e4f3a2b",
+          "createdAt": "2026-11-08T22:10:00Z",
+          "kind": "manual",
+          "label": "Before the final boss",
+          "machineId": "7f3e2d1c-0b9a-4876-9543-210fedcba987",
+          "appVersion": "0.2.0",
+          "profile": {
+            "channel": "local",
+            "id": "my-indie-game",
+            "revision": 1
+          },
+          "consistency": "consistent",
+          "files": [
+            {
+              "path": "<winLocalAppDataLow>/Team Cherry/Hollow Knight/user1.dat",
+              "ruleId": "progress",
+              "sha256": "9f2c41e0b7d64a1f8c3e5a7b9d1f3e5a7c9b1d3f5e7a9c1b3d5f7e9a1c3b5d7f",
+              "size": 482133,
+              "mtime": "2026-11-08T22:09:51Z"
+            },
+            {
+              "path": "<winLocalAppDataLow>/Team Cherry/Hollow Knight/user2.dat",
+              "ruleId": "progress",
+              "sha256": "3be08d77c1a2b3c4d5e6f708192a3b4c5d6e7f8091a2b3c4d5e6f708192a02cc",
+              "size": 9120,
+              "mtime": "2026-10-30T18:02:11Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

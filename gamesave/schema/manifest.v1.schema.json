@@ -1,0 +1,74 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://saveforge.github.io/saveforge-specs/schemas/gamesave/manifest.v1.schema.json",
+  "title": "SaveForge .gamesave manifest v1",
+  "description": "Content of manifest.json inside a .gamesave archive. Normative text: gamesave/SPEC.md.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["format", "formatVersion", "exportId", "createdAt", "createdBy", "mode", "source", "games"],
+  "properties": {
+    "format": { "description": "Format marker.", "const": "saveforge.gamesave" },
+    "formatVersion": { "description": "Format major version.", "const": 1 },
+    "exportId": { "description": "UUIDv7 of this export.", "$ref": "../common/defs.v1.schema.json#/$defs/uuid" },
+    "createdAt": { "description": "Export time.", "$ref": "../common/defs.v1.schema.json#/$defs/timestamp" },
+    "createdBy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["app", "version"],
+      "properties": {
+        "app": { "type": "string", "minLength": 1, "maxLength": 100 },
+        "version": { "$ref": "../common/defs.v1.schema.json#/$defs/semver" }
+      }
+    },
+    "mode": {
+      "description": "'full' carries every referenced blob; 'incremental' omits blobs already in the export named by baseExportId.",
+      "type": "string",
+      "enum": ["full", "incremental"]
+    },
+    "baseExportId": {
+      "description": "Required for incremental exports; forbidden otherwise.",
+      "$ref": "../common/defs.v1.schema.json#/$defs/uuid"
+    },
+    "source": {
+      "description": "Informative data about the exporting machine.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["os"],
+      "properties": {
+        "os": { "$ref": "../common/defs.v1.schema.json#/$defs/os" },
+        "placeholders": {
+          "description": "Optional resolved root placeholder values, for diagnostics only. Contains the user name; exporters SHOULD let users omit it. Importers MUST NOT use it to choose restore locations.",
+          "type": "object",
+          "propertyNames": { "pattern": "^<[A-Za-z]+>$" },
+          "additionalProperties": { "type": "string", "maxLength": 1024 }
+        }
+      }
+    },
+    "games": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["gameId", "name", "snapshots"],
+        "properties": {
+          "gameId": { "$ref": "../vault/snapshot.v1.schema.json#/$defs/gameId" },
+          "name": { "type": "string", "minLength": 1, "maxLength": 200 },
+          "localProfile": {
+            "description": "For 'local:' games: the user-created profile, so the importing machine can resolve paths.",
+            "$ref": "../profile/profile.v1.schema.json"
+          },
+          "snapshots": {
+            "description": "Snapshot documents exactly as stored in the vault.",
+            "type": "array",
+            "minItems": 1,
+            "items": { "$ref": "../vault/snapshot.v1.schema.json" }
+          }
+        }
+      }
+    }
+  },
+  "if": { "properties": { "mode": { "const": "incremental" } } },
+  "then": { "properties": { "baseExportId": true }, "required": ["baseExportId"] },
+  "else": { "not": { "properties": { "baseExportId": true }, "required": ["baseExportId"] } }
+}

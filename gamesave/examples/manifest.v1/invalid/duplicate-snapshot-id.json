@@ -1,0 +1,146 @@
+{
+  "format": "saveforge.gamesave",
+  "formatVersion": 1,
+  "exportId": "0193f2aa-1111-7222-8333-444455556666",
+  "createdAt": "2026-11-09T14:03:22Z",
+  "createdBy": {
+    "app": "SaveForge Desktop",
+    "version": "0.2.0"
+  },
+  "mode": "full",
+  "source": {
+    "os": "windows"
+  },
+  "games": [
+    {
+      "gameId": "hollow-knight",
+      "name": "Hollow Knight",
+      "snapshots": [
+        {
+          "schemaVersion": 1,
+          "type": "snapshot",
+          "snapshotId": "0193f1c0-5a2b-7c3d-8e4f-a1b2c3d4e5f6",
+          "parentId": "0193f0a2-1b2c-7d3e-9f40-b1c2d3e4f5a6",
+          "gameId": "hollow-knight",
+          "createdAt": "2026-11-08T22:10:00Z",
+          "kind": "manual",
+          "label": "Before the final boss",
+          "machineId": "7f3e2d1c-0b9a-4876-9543-210fedcba987",
+          "appVersion": "0.2.0",
+          "profile": {
+            "channel": "official",
+            "id": "hollow-knight",
+            "revision": 3
+          },
+          "consistency": "consistent",
+          "files": [
+            {
+              "path": "<winLocalAppDataLow>/Team Cherry/Hollow Knight/user1.dat",
+              "ruleId": "progress",
+              "sha256": "9f2c41e0b7d64a1f8c3e5a7b9d1f3e5a7c9b1d3f5e7a9c1b3d5f7e9a1c3b5d7f",
+              "size": 482133,
+              "mtime": "2026-11-08T22:09:51Z"
+            },
+            {
+              "path": "<winLocalAppDataLow>/Team Cherry/Hollow Knight/user2.dat",
+              "ruleId": "progress",
+              "sha256": "3be08d77c1a2b3c4d5e6f708192a3b4c5d6e7f8091a2b3c4d5e6f708192a02cc",
+              "size": 9120,
+              "mtime": "2026-10-30T18:02:11Z"
+            }
+          ],
+          "registry": [
+            {
+              "key": "HKCU/Software/Team Cherry/Hollow Knight",
+              "ruleId": "settings",
+              "values": [
+                {
+                  "name": "Screenmanager Resolution Width_h182942802",
+                  "type": "REG_DWORD",
+                  "data": 1920
+                },
+                {
+                  "name": "UnitySelectMonitor_h17969598",
+                  "type": "REG_QWORD",
+                  "data": "0"
+                },
+                {
+                  "name": "",
+                  "type": "REG_SZ",
+                  "data": ""
+                },
+                {
+                  "name": "Blob",
+                  "type": "REG_BINARY",
+                  "data": "AAEC/w=="
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "schemaVersion": 1,
+          "type": "snapshot",
+          "snapshotId": "0193f1c0-5a2b-7c3d-8e4f-a1b2c3d4e5f6",
+          "parentId": "0193f0a2-1b2c-7d3e-9f40-b1c2d3e4f5a6",
+          "gameId": "hollow-knight",
+          "createdAt": "2026-11-08T22:10:00Z",
+          "kind": "manual",
+          "label": "Before the final boss",
+          "machineId": "7f3e2d1c-0b9a-4876-9543-210fedcba987",
+          "appVersion": "0.2.0",
+          "profile": {
+            "channel": "official",
+            "id": "hollow-knight",
+            "revision": 3
+          },
+          "consistency": "consistent",
+          "files": [
+            {
+              "path": "<winLocalAppDataLow>/Team Cherry/Hollow Knight/user1.dat",
+              "ruleId": "progress",
+              "sha256": "9f2c41e0b7d64a1f8c3e5a7b9d1f3e5a7c9b1d3f5e7a9c1b3d5f7e9a1c3b5d7f",
+              "size": 482133,
+              "mtime": "2026-11-08T22:09:51Z"
+            },
+            {
+              "path": "<winLocalAppDataLow>/Team Cherry/Hollow Knight/user2.dat",
+              "ruleId": "progress",
+              "sha256": "3be08d77c1a2b3c4d5e6f708192a3b4c5d6e7f8091a2b3c4d5e6f708192a02cc",
+              "size": 9120,
+              "mtime": "2026-10-30T18:02:11Z"
+            }
+          ],
+          "registry": [
+            {
+              "key": "HKCU/Software/Team Cherry/Hollow Knight",
+              "ruleId": "settings",
+              "values": [
+                {
+                  "name": "Screenmanager Resolution Width_h182942802",
+                  "type": "REG_DWORD",
+                  "data": 1920
+                },
+                {
+                  "name": "UnitySelectMonitor_h17969598",
+                  "type": "REG_QWORD",
+                  "data": "0"
+                },
+                {
+                  "name": "",
+                  "type": "REG_SZ",
+                  "data": ""
+                },
+                {
+                  "name": "Blob",
+                  "type": "REG_BINARY",
+                  "data": "AAEC/w=="
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
