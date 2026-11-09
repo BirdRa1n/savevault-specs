@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "type": "snapshot",
+  "snapshotId": "0193f1c1-0000-7000-8000-000000000001",
+  "parentId": "0193f0a2-1b2c-7d3e-9f40-b1c2d3e4f5a6",
+  "gameId": "example-steam-account-game",
+  "createdAt": "2026-11-08T22:10:00Z",
+  "kind": "auto",
+  "machineId": "7f3e2d1c-0b9a-4876-9543-210fedcba987",
+  "appVersion": "0.2.0",
+  "profile": {
+    "channel": "official",
+    "id": "example-steam-account-game",
+    "revision": 1
+  },
+  "consistency": "inconsistent",
+  "files": [
+    {
+      "path": "<winAppData>/ExampleStudio/ExampleGame/<storeUserId>/slot0.sl2",
+      "bindings": {
+        "storeUserId": "76561198000000000"
+      },
+      "ruleId": "progress",
+      "sha256": "c41a9930e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9ee10",
+      "size": 2048,
+      "mtime": "2026-11-09T10:00:00Z"
+    }
+  ],
+  "trigger": "game-exit"
+}

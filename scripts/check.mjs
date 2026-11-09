@@ -79,10 +79,47 @@ function bundleErrors(bundle) {
   return errors;
 }
 
+function snapshotErrors(snapshot) {
+  const errors = [];
+  for (const file of snapshot.files ?? []) {
+    // Snapshot paths are concrete, so only syntax/placeholder/traversal rules apply (not P5/P6).
+    const violations = validateSavePath(file.path).violations.filter((r) => ["P1", "P2", "P3", "P4"].includes(r));
+    if (violations.length > 0) errors.push(`file "${file.path}" violates ${violations.join(", ")}`);
+    for (const token of file.path.match(/<[^<>]+>/g)?.slice(1) ?? []) {
+      const name = token.slice(1, -1);
+      if (!file.bindings?.[name]) errors.push(`file "${file.path}" has no binding for ${token}`);
+    }
+  }
+  for (const reg of snapshot.registry ?? []) {
+    const result = validateRegistryKey(reg.key);
+    if (!result.valid) errors.push(`registry key "${reg.key}" violates ${result.violations.join(", ")}`);
+  }
+  return errors;
+}
+
+function manifestErrors(manifest) {
+  const errors = [];
+  const snapshotIds = new Set();
+  for (const game of manifest.games ?? []) {
+    const isLocal = game.gameId.startsWith("local:");
+    if (isLocal && !game.localProfile) errors.push(`${game.gameId}: local games must include localProfile`);
+    if (game.localProfile) errors.push(...profileErrors(game.localProfile).map((e) => `${game.gameId}: ${e}`));
+    for (const snapshot of game.snapshots ?? []) {
+      if (snapshot.gameId !== game.gameId) errors.push(`snapshot ${snapshot.snapshotId} belongs to "${snapshot.gameId}", not "${game.gameId}"`);
+      if (snapshotIds.has(snapshot.snapshotId)) errors.push(`duplicate snapshot id ${snapshot.snapshotId}`);
+      snapshotIds.add(snapshot.snapshotId);
+      errors.push(...snapshotErrors(snapshot).map((e) => `${snapshot.snapshotId}: ${e}`));
+    }
+  }
+  return errors;
+}
+
 const semanticRules = {
   "profile.v1": profileErrors,
   "root.v1": rootErrors,
   "bundle.v1": bundleErrors,
+  "snapshot.v1": snapshotErrors,
+  "manifest.v1": manifestErrors,
 };
 
 /** Verifies an Ed25519 signature given a raw 32-byte public key in base64. */

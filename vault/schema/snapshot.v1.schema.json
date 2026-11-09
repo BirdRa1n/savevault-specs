@@ -1,0 +1,123 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://saveforge.github.io/saveforge-specs/schemas/vault/snapshot.v1.schema.json",
+  "title": "SaveForge snapshot v1",
+  "description": "Immutable record of one backup of one game. Stored in the vault as snapshots/<gameId>/<snapshotId>.json and embedded in .gamesave manifests. Normative text: vault/SPEC.md.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "type", "snapshotId", "gameId", "createdAt", "kind", "machineId", "appVersion", "profile", "consistency", "files"],
+  "properties": {
+    "schemaVersion": { "description": "Schema major version.", "const": 1 },
+    "type": { "description": "Document type marker.", "const": "snapshot" },
+    "snapshotId": { "description": "UUIDv7 of this snapshot.", "$ref": "../common/defs.v1.schema.json#/$defs/uuid" },
+    "parentId": {
+      "description": "Snapshot this one was taken after on the same machine, or null for the first. Used to detect diverging histories when syncing.",
+      "oneOf": [{ "$ref": "../common/defs.v1.schema.json#/$defs/uuid" }, { "type": "null" }]
+    },
+    "gameId": { "$ref": "#/$defs/gameId" },
+    "createdAt": { "description": "When the backup finished.", "$ref": "../common/defs.v1.schema.json#/$defs/timestamp" },
+    "kind": {
+      "description": "Why the snapshot exists.",
+      "type": "string",
+      "enum": ["manual", "auto", "pre-restore", "import"]
+    },
+    "trigger": {
+      "description": "For kind 'auto': what started it.",
+      "type": "string",
+      "enum": ["game-exit", "schedule", "file-change"]
+    },
+    "label": { "description": "Optional user-given name.", "type": "string", "minLength": 1, "maxLength": 200 },
+    "pinned": { "description": "Pinned snapshots are never removed by retention.", "type": "boolean", "default": false },
+    "machineId": { "description": "Random UUID identifying the installation that took the snapshot.", "$ref": "../common/defs.v1.schema.json#/$defs/uuid" },
+    "appVersion": { "description": "Desktop version that took the snapshot.", "$ref": "../common/defs.v1.schema.json#/$defs/semver" },
+    "profile": {
+      "description": "Profile used to find the files.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["channel", "id", "revision"],
+      "properties": {
+        "channel": { "type": "string", "enum": ["official", "upstream-ludusavi", "community-experimental", "local"] },
+        "id": { "$ref": "../common/defs.v1.schema.json#/$defs/slug" },
+        "revision": { "type": "integer", "minimum": 1 }
+      }
+    },
+    "consistency": {
+      "description": "'inconsistent' when files kept changing during the read (e.g. the game was saving).",
+      "type": "string",
+      "enum": ["consistent", "inconsistent"]
+    },
+    "files": {
+      "description": "Every file captured. Content is stored once per sha256.",
+      "type": "array",
+      "items": { "$ref": "#/$defs/file" }
+    },
+    "registry": {
+      "description": "Captured Windows registry keys.",
+      "type": "array",
+      "items": { "$ref": "#/$defs/registryKey" }
+    }
+  },
+  "$defs": {
+    "gameId": {
+      "description": "Profile id, or 'local:<uuid>' for games without a published profile.",
+      "type": "string",
+      "pattern": "^([a-z0-9]+(-[a-z0-9]+)*|local:[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$"
+    },
+    "file": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "ruleId", "sha256", "size", "mtime"],
+      "properties": {
+        "path": {
+          "description": "Concrete path in template form: root placeholder, literal segments and segment placeholders whose values are in 'bindings'. No globs.",
+          "allOf": [
+            { "$ref": "../common/defs.v1.schema.json#/$defs/templatePath" },
+            { "type": "string", "pattern": "^[^*?]*$" }
+          ]
+        },
+        "bindings": {
+          "description": "Values that segment placeholders in 'path' had on the source machine, e.g. {\"storeUserId\": \"12345678\"}.",
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "storeUserId": { "type": "string", "minLength": 1, "maxLength": 64 },
+            "storeGameId": { "type": "string", "minLength": 1, "maxLength": 64 },
+            "osUserName": { "type": "string", "minLength": 1, "maxLength": 256 }
+          }
+        },
+        "ruleId": { "description": "Profile rule that matched the file.", "$ref": "../common/defs.v1.schema.json#/$defs/slug" },
+        "sha256": { "description": "SHA-256 of the original (uncompressed) content.", "$ref": "../common/defs.v1.schema.json#/$defs/sha256" },
+        "size": { "description": "Original size in bytes.", "type": "integer", "minimum": 0 },
+        "mtime": { "description": "Last modification time on the source machine.", "$ref": "../common/defs.v1.schema.json#/$defs/timestamp" }
+      }
+    },
+    "registryKey": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["key", "ruleId", "values"],
+      "properties": {
+        "key": { "description": "Key path, e.g. HKCU/Software/Studio/Game/Sub.", "type": "string", "minLength": 1, "maxLength": 256 },
+        "ruleId": { "$ref": "../common/defs.v1.schema.json#/$defs/slug" },
+        "values": { "type": "array", "items": { "$ref": "#/$defs/registryValue" } }
+      }
+    },
+    "registryValue": {
+      "description": "One registry value. 'name' is empty for the key's default value.",
+      "type": "object",
+      "required": ["name", "type", "data"],
+      "properties": {
+        "name": { "type": "string", "maxLength": 16383 },
+        "type": { "type": "string", "enum": ["REG_SZ", "REG_EXPAND_SZ", "REG_MULTI_SZ", "REG_DWORD", "REG_QWORD", "REG_BINARY"] },
+        "data": {}
+      },
+      "unevaluatedProperties": false,
+      "oneOf": [
+        { "properties": { "type": { "enum": ["REG_SZ", "REG_EXPAND_SZ"] }, "data": { "type": "string" } } },
+        { "properties": { "type": { "const": "REG_MULTI_SZ" }, "data": { "type": "array", "items": { "type": "string" } } } },
+        { "properties": { "type": { "const": "REG_DWORD" }, "data": { "type": "integer", "minimum": 0, "maximum": 4294967295 } } },
+        { "properties": { "type": { "const": "REG_QWORD" }, "data": { "description": "Decimal string; 64-bit values exceed JSON's safe integer range.", "type": "string", "pattern": "^(0|[1-9][0-9]{0,19})$" } } },
+        { "properties": { "type": { "const": "REG_BINARY" }, "data": { "$ref": "../common/defs.v1.schema.json#/$defs/base64" } } }
+      ]
+    }
+  }
+}

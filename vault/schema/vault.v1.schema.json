@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://saveforge.github.io/saveforge-specs/schemas/vault/vault.v1.schema.json",
+  "title": "SaveForge vault descriptor v1",
+  "description": "Content of vault.json at the root of a vault. Normative text: vault/SPEC.md.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "type", "vaultId", "createdAt", "hash", "compression"],
+  "properties": {
+    "schemaVersion": { "description": "Vault layout major version.", "const": 1 },
+    "type": { "description": "Document type marker.", "const": "vault" },
+    "vaultId": { "description": "Random identifier of this vault.", "$ref": "../common/defs.v1.schema.json#/$defs/uuid" },
+    "createdAt": { "description": "Creation time.", "$ref": "../common/defs.v1.schema.json#/$defs/timestamp" },
+    "hash": { "description": "Content hash used to name blobs.", "const": "sha256" },
+    "compression": { "description": "Compression applied to blobs.", "const": "zstd" }
+  }
+}

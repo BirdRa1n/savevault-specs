@@ -1,0 +1,8 @@
+{
+  "schemaVersion": 1,
+  "type": "vault",
+  "vaultId": "5b0f6e2a-3c4d-4e5f-8a9b-0c1d2e3f4a5b",
+  "createdAt": "2026-11-01T09:00:00Z",
+  "hash": "sha256",
+  "compression": "zstd"
+}
