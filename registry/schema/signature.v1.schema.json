@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://saveforge.github.io/saveforge-specs/schemas/registry/signature.v1.schema.json",
+  "title": "SaveForge detached signature file v1",
+  "description": "Content of '<file>.sig'. Each signature is Ed25519 over the exact bytes of '<file>'. Normative text: registry/SPEC.md.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["signatures"],
+  "properties": {
+    "signatures": {
+      "description": "One entry per signing key.",
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 8,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["keyId", "signature"],
+        "properties": {
+          "keyId": { "$ref": "root.v1.schema.json#/$defs/keyId" },
+          "signature": {
+            "description": "Base64 of the 64-byte Ed25519 signature.",
+            "type": "string",
+            "pattern": "^[A-Za-z0-9+/]{86}==$"
+          }
+        }
+      }
+    }
+  }
+}

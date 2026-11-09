@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://saveforge.github.io/saveforge-specs/schemas/registry/bundle.v1.schema.json",
+  "title": "SaveForge registry profile bundle v1",
+  "description": "Decompressed content of a channel bundle. Integrity comes from the signed index (sha256), not from the bundle itself. Normative text: registry/SPEC.md.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "type", "channel", "sequence", "generatedAt", "notices", "profiles"],
+  "properties": {
+    "schemaVersion": { "description": "Schema major version.", "const": 1 },
+    "type": { "description": "Document type marker.", "const": "bundle" },
+    "channel": { "description": "MUST equal the index's channel.", "$ref": "../common/defs.v1.schema.json#/$defs/slug" },
+    "sequence": { "description": "MUST equal the index's sequence.", "type": "integer", "minimum": 1 },
+    "generatedAt": { "description": "Build time.", "$ref": "../common/defs.v1.schema.json#/$defs/timestamp" },
+    "notices": {
+      "description": "License and attribution notices for the data in this bundle. Clients MUST show them (e.g. in an About screen).",
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["license", "attribution"],
+        "properties": {
+          "license": { "description": "SPDX identifier.", "type": "string", "minLength": 1, "maxLength": 64 },
+          "attribution": { "description": "Human-readable credit line.", "type": "string", "minLength": 1, "maxLength": 1000 },
+          "url": { "description": "Where the source data and license can be found.", "type": "string", "format": "uri" }
+        }
+      }
+    },
+    "profiles": {
+      "description": "Profiles of this channel. Profile ids MUST be unique within a bundle.",
+      "type": "array",
+      "items": { "$ref": "../profile/profile.v1.schema.json" }
+    }
+  }
+}

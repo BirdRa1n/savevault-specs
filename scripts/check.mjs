@@ -5,6 +5,7 @@
 //   3. the path-safety test vectors agree with the reference implementation.
 // Exits with a non-zero status on any failure.
 
+import { createHash, createPublicKey, verify as cryptoVerify } from "node:crypto";
 import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { basename, dirname, join, relative } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -55,10 +56,41 @@ function profileErrors(profile) {
   return errors;
 }
 
+function rootErrors(rootDoc) {
+  const errors = [];
+  for (const key of [...(rootDoc.rootKeys ?? []), ...(rootDoc.onlineKeys ?? [])]) {
+    const raw = Buffer.from(key.publicKey, "base64");
+    if (raw.length !== 32) errors.push(`key ${key.keyId}: public key is ${raw.length} bytes, expected 32`);
+    const expected = createHash("sha256").update(raw).digest("hex").slice(0, 16);
+    if (key.keyId !== expected) errors.push(`key ${key.keyId}: keyId does not match public key (expected ${expected})`);
+  }
+  if (rootDoc.rootThreshold > (rootDoc.rootKeys ?? []).length) errors.push("rootThreshold exceeds number of root keys");
+  return errors;
+}
+
+function bundleErrors(bundle) {
+  const errors = [];
+  const seen = new Set();
+  for (const p of bundle.profiles ?? []) {
+    if (seen.has(p.id)) errors.push(`duplicate profile id "${p.id}"`);
+    seen.add(p.id);
+    errors.push(...profileErrors(p).map((e) => `${p.id}: ${e}`));
+  }
+  return errors;
+}
+
 const semanticRules = {
   "profile.v1": profileErrors,
-  "bundle.v1": (bundle) => (bundle.profiles ?? []).flatMap((p) => profileErrors(p).map((e) => `${p.id}: ${e}`)),
+  "root.v1": rootErrors,
+  "bundle.v1": bundleErrors,
 };
+
+/** Verifies an Ed25519 signature given a raw 32-byte public key in base64. */
+function verifyEd25519(publicKeyB64, message, signatureB64) {
+  const SPKI_PREFIX = Buffer.from("302a300506032b6570032100", "hex");
+  const key = createPublicKey({ key: Buffer.concat([SPKI_PREFIX, Buffer.from(publicKeyB64, "base64")]), format: "der", type: "spki" });
+  return cryptoVerify(null, message, key, Buffer.from(signatureB64, "base64"));
+}
 
 // ---------------------------------------------------------------------------
 // 1. Compile schemas
@@ -130,6 +162,34 @@ if (existsSync(vectorsFile)) {
   };
   run(vectors.savePaths, validateSavePath, "save path");
   run(vectors.registryKeys, validateRegistryKey, "registry key");
+}
+
+// ---------------------------------------------------------------------------
+// 4. Registry signing vectors and the signed root example
+// ---------------------------------------------------------------------------
+
+const signingFile = join(root, "registry", "test-vectors", "signing.json");
+if (existsSync(signingFile)) {
+  const signing = readJson(signingFile);
+  const keys = new Map(signing.keys.map((k) => [k.keyId, k.publicKey]));
+  for (const c of signing.cases) {
+    const valid = verifyEd25519(keys.get(c.keyId), Buffer.from(c.message, "base64"), c.signature);
+    if (valid !== c.valid) fail(signingFile, `"${c.description}": expected valid=${c.valid}, got ${valid}`);
+    else ok();
+  }
+
+  // The signed example must verify over the exact bytes of root.json.
+  const rootFile = join(root, "registry", "examples", "root.v1", "valid", "root.json");
+  const sigFile = join(root, "registry", "examples", "signature.v1", "valid", "root.json.sig.json");
+  const rootBytes = readFileSync(rootFile);
+  const rootKeys = new Map(JSON.parse(rootBytes).rootKeys.map((k) => [k.keyId, k.publicKey]));
+  for (const s of readJson(sigFile).signatures) {
+    if (!rootKeys.has(s.keyId) || !verifyEd25519(rootKeys.get(s.keyId), rootBytes, s.signature)) {
+      fail(sigFile, `signature by ${s.keyId} does not verify over root.json (line endings changed?)`);
+    } else {
+      ok();
+    }
+  }
 }
 
 // ---------------------------------------------------------------------------

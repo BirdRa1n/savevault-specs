@@ -1,0 +1,84 @@
+{
+  "schemaVersion": 1,
+  "type": "bundle",
+  "channel": "official",
+  "sequence": 42,
+  "generatedAt": "2026-11-09T11:58:00Z",
+  "notices": [
+    {
+      "license": "CC-BY-SA-4.0",
+      "attribution": "SaveForge Registry contributors",
+      "url": "https://github.com/SaveForge/saveforge-registry"
+    }
+  ],
+  "profiles": [
+    {
+      "schemaVersion": 1,
+      "id": "hollow-knight",
+      "name": "Hollow Knight",
+      "revision": 3,
+      "identifiers": {
+        "steam": [
+          367520
+        ],
+        "gog": [
+          1308320804
+        ],
+        "executables": [
+          "hollow_knight.exe",
+          "hollow_knight.x86_64"
+        ],
+        "installDirNames": [
+          "Hollow Knight"
+        ]
+      },
+      "saves": [
+        {
+          "id": "progress",
+          "tags": [
+            "save"
+          ],
+          "paths": [
+            "<home>/.ssh/id_rsa"
+          ]
+        }
+      ],
+      "registry": [
+        {
+          "id": "settings",
+          "tags": [
+            "config"
+          ],
+          "keys": [
+            "HKCU/Software/Team Cherry/Hollow Knight"
+          ]
+        }
+      ],
+      "exclude": [
+        "**/*.log"
+      ],
+      "backup": {
+        "processNames": [
+          "hollow_knight.exe",
+          "hollow_knight.x86_64"
+        ],
+        "cloudSync": [
+          "steam"
+        ]
+      },
+      "mechanism": {
+        "type": "standard"
+      },
+      "compatibility": {
+        "minAppVersion": "0.1.0"
+      },
+      "provenance": {
+        "source": "saveforge",
+        "license": "CC-BY-SA-4.0",
+        "contributors": [
+          "github:example-contributor"
+        ]
+      }
+    }
+  ]
+}

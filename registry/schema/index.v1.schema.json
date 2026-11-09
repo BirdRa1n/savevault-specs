@@ -1,0 +1,77 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://saveforge.github.io/saveforge-specs/schemas/registry/index.v1.schema.json",
+  "title": "SaveForge registry channel index v1",
+  "description": "Current state of one registry channel. Signed by an online key. Normative text: registry/SPEC.md.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "type", "channel", "sequence", "publishedAt", "expires", "bundle"],
+  "properties": {
+    "schemaVersion": { "description": "Schema major version.", "const": 1 },
+    "type": { "description": "Document type marker.", "const": "index" },
+    "channel": {
+      "description": "Channel name, e.g. 'official' or 'upstream-ludusavi'.",
+      "$ref": "../common/defs.v1.schema.json#/$defs/slug"
+    },
+    "sequence": {
+      "description": "Monotonically increasing publication number. Clients MUST reject a sequence lower than the last one they accepted.",
+      "type": "integer",
+      "minimum": 1
+    },
+    "publishedAt": { "description": "Publication time.", "$ref": "../common/defs.v1.schema.json#/$defs/timestamp" },
+    "expires": {
+      "description": "After this instant clients keep using the index but warn that it is stale.",
+      "$ref": "../common/defs.v1.schema.json#/$defs/timestamp"
+    },
+    "minAppVersion": {
+      "description": "Oldest Desktop version able to read this channel's bundle.",
+      "$ref": "../common/defs.v1.schema.json#/$defs/semver"
+    },
+    "bundle": {
+      "description": "The profile bundle for this sequence.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "size", "uncompressedSize", "profileCount"],
+      "properties": {
+        "path": {
+          "description": "Path relative to the channel directory. Absolute URLs are not allowed.",
+          "type": "string",
+          "pattern": "^bundles/[a-z0-9][a-z0-9.-]*\\.json\\.zst$"
+        },
+        "sha256": { "description": "SHA-256 of the compressed file.", "$ref": "../common/defs.v1.schema.json#/$defs/sha256" },
+        "size": { "description": "Size of the compressed file in bytes.", "type": "integer", "minimum": 1 },
+        "uncompressedSize": {
+          "description": "Size after decompression. Clients MUST abort decompression beyond this size.",
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 67108864
+        },
+        "profileCount": { "description": "Number of profiles in the bundle.", "type": "integer", "minimum": 0 }
+      }
+    },
+    "revoked": {
+      "description": "Profile revisions that clients MUST stop using, falling back to an older cached revision if available.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "revision", "reason"],
+        "properties": {
+          "id": { "$ref": "../common/defs.v1.schema.json#/$defs/slug" },
+          "revision": { "type": "integer", "minimum": 1 },
+          "reason": { "type": "string", "minLength": 1, "maxLength": 500 }
+        }
+      }
+    },
+    "source": {
+      "description": "Where the bundle was built from, for auditing.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["repository", "commit"],
+      "properties": {
+        "repository": { "type": "string", "pattern": "^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$" },
+        "commit": { "type": "string", "pattern": "^[0-9a-f]{7,40}$" }
+      }
+    }
+  }
+}

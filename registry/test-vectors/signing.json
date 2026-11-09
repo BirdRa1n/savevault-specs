@@ -1,0 +1,54 @@
+{
+  "$comment": "Ed25519 verification vectors for registry/SPEC.md. Seeds are PUBLIC TEST VALUES; never trust these keys. Regenerate with scripts/gen-registry-vectors.mjs.",
+  "version": 1,
+  "keys": [
+    {
+      "label": "root-1",
+      "seed": "7438c0495f6b56e941003ceeb101f31f8fe5b12ee3fc390c76785252301830b6",
+      "keyId": "9d61e6dda9427181",
+      "publicKey": "nnJKuLiZR2eWZl02+1lU17oQEf+mc8eXMK9DQKlUn+E="
+    },
+    {
+      "label": "online-1",
+      "seed": "62db639654e51a7c8506d863de3e4f2c3c954935321349bc630e1b7afefb9b75",
+      "keyId": "aadf952169f076b6",
+      "publicKey": "J1Qx7rN7SBKnqSdWcRwwDC6BkZkLT97ny1PfsNcMvRs="
+    },
+    {
+      "label": "unrelated",
+      "seed": "56d33d0bdc73d846580e3d66613440255ecf098051581de9f57903d6259eb7a7",
+      "keyId": "c53557f5944e81b4",
+      "publicKey": "i6QiLUXjE5gMAbB2EaMed5fCRb0TsevV7eMgCdlaQw4="
+    }
+  ],
+  "cases": [
+    {
+      "description": "valid signature",
+      "keyId": "aadf952169f076b6",
+      "message": "eyJzY2hlbWFWZXJzaW9uIjoxLCJ0eXBlIjoiaW5kZXgiLCJjaGFubmVsIjoib2ZmaWNpYWwiLCJzZXF1ZW5jZSI6MX0K",
+      "signature": "yy0hScTjjdyRsRwffQp4xHwtSpV61xJ9BhlaTJ1PHmwwJmYibw84QOiZDu8jp1lJzT5k3YSboti3nnjSJYHHDA==",
+      "valid": true
+    },
+    {
+      "description": "message modified by one bit",
+      "keyId": "aadf952169f076b6",
+      "message": "eyJzY2hlbWFWZXJzaW9uIjoxLCJ0eXBlIjoiaW5kZXgiLCJjaGFubmVsIjoib2ZmaWNpYWwiLCJzZXF1ZW5jZSI6MH0K",
+      "signature": "yy0hScTjjdyRsRwffQp4xHwtSpV61xJ9BhlaTJ1PHmwwJmYibw84QOiZDu8jp1lJzT5k3YSboti3nnjSJYHHDA==",
+      "valid": false
+    },
+    {
+      "description": "signature from a different key",
+      "keyId": "aadf952169f076b6",
+      "message": "eyJzY2hlbWFWZXJzaW9uIjoxLCJ0eXBlIjoiaW5kZXgiLCJjaGFubmVsIjoib2ZmaWNpYWwiLCJzZXF1ZW5jZSI6MX0K",
+      "signature": "EaJ3hU8LhCnfOvIKhjLjFosy/CGFFX69G9Palm3go8qKmnCUczzh7NDAeyytfLq7hQduIOAObzMOb59CpUNxCA==",
+      "valid": false
+    },
+    {
+      "description": "root.json example signed by root-1",
+      "keyId": "9d61e6dda9427181",
+      "message": "ewogICJzY2hlbWFWZXJzaW9uIjogMSwKICAidHlwZSI6ICJyb290IiwKICAidmVyc2lvbiI6IDEsCiAgImV4cGlyZXMiOiAiMjAyOC0wMS0wMVQwMDowMDowMFoiLAogICJyb290VGhyZXNob2xkIjogMSwKICAicm9vdEtleXMiOiBbCiAgICB7CiAgICAgICJrZXlJZCI6ICI5ZDYxZTZkZGE5NDI3MTgxIiwKICAgICAgImFsZ29yaXRobSI6ICJlZDI1NTE5IiwKICAgICAgInB1YmxpY0tleSI6ICJubkpLdUxpWlIyZVdabDAyKzFsVTE3b1FFZittYzhlWE1LOURRS2xVbitFPSIKICAgIH0KICBdLAogICJvbmxpbmVLZXlzIjogWwogICAgewogICAgICAia2V5SWQiOiAiYWFkZjk1MjE2OWYwNzZiNiIsCiAgICAgICJhbGdvcml0aG0iOiAiZWQyNTUxOSIsCiAgICAgICJwdWJsaWNLZXkiOiAiSjFReDdyTjdTQktucVNkV2NSd3dEQzZCa1prTFQ5N255MVBmc05jTXZScz0iLAogICAgICAiY2hhbm5lbHMiOiBbCiAgICAgICAgIioiCiAgICAgIF0KICAgIH0KICBdCn0K",
+      "signature": "zDjTMcfYCr05eMUFbkSAIB2HNQRSQAT4MvlOv8+K9Fn0INAqYK+RsSMTrVQr/AC1dbqeQBcWMNUh2ogn848CDg==",
+      "valid": true
+    }
+  ]
+}

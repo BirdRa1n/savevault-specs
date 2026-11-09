@@ -1,0 +1,109 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://saveforge.github.io/saveforge-specs/schemas/registry/root.v1.schema.json",
+  "title": "SaveForge registry root metadata v1",
+  "description": "Lists the keys trusted to sign the next root and the channel indexes. Signed by root keys. Normative text: registry/SPEC.md.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "type",
+    "version",
+    "expires",
+    "rootThreshold",
+    "rootKeys",
+    "onlineKeys"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "description": "Schema major version.",
+      "const": 1
+    },
+    "type": {
+      "description": "Document type marker.",
+      "const": "root"
+    },
+    "version": {
+      "description": "Root version. Version N+1 MUST be signed by a threshold of version N's root keys.",
+      "type": "integer",
+      "minimum": 1
+    },
+    "expires": {
+      "description": "After this instant clients warn that registry metadata is stale.",
+      "$ref": "../common/defs.v1.schema.json#/$defs/timestamp"
+    },
+    "rootThreshold": {
+      "description": "Number of distinct root-key signatures required on the next root version.",
+      "type": "integer",
+      "minimum": 1
+    },
+    "rootKeys": {
+      "description": "Offline keys allowed to sign root metadata.",
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "$ref": "#/$defs/publicKey",
+        "unevaluatedProperties": false
+      }
+    },
+    "onlineKeys": {
+      "description": "Keys allowed to sign channel indexes.",
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "allOf": [
+          {
+            "$ref": "#/$defs/publicKey"
+          }
+        ],
+        "type": "object",
+        "required": [
+          "channels"
+        ],
+        "properties": {
+          "channels": {
+            "description": "Channels this key may sign. '*' means all channels.",
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "pattern": "^(\\*|[a-z0-9]+(-[a-z0-9]+)*)$"
+            },
+            "uniqueItems": true
+          }
+        },
+        "unevaluatedProperties": false
+      }
+    }
+  },
+  "$defs": {
+    "keyId": {
+      "description": "First 16 hex characters of the SHA-256 of the raw 32-byte public key.",
+      "type": "string",
+      "pattern": "^[0-9a-f]{16}$"
+    },
+    "publicKey": {
+      "type": "object",
+      "required": [
+        "keyId",
+        "algorithm",
+        "publicKey"
+      ],
+      "properties": {
+        "keyId": {
+          "$ref": "#/$defs/keyId"
+        },
+        "algorithm": {
+          "description": "Signature algorithm.",
+          "const": "ed25519"
+        },
+        "publicKey": {
+          "description": "Base64 of the raw 32-byte Ed25519 public key.",
+          "type": "string",
+          "pattern": "^[A-Za-z0-9+/]{43}=$"
+        }
+      }
+    }
+  }
+}
