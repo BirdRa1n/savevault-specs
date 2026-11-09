@@ -1,2 +1,3 @@
-# Auto detect text files and perform LF normalization
-* text=auto
+# Specs are consumed byte-for-byte (signatures and hashes are computed over
+# exact file contents), so every text file uses LF on every platform.
+* text=auto eol=lf
