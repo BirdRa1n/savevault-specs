@@ -1,10 +1,10 @@
 {
-  "format": "saveforge.gamesave",
+  "format": "savevault.gamesave",
   "formatVersion": 1,
   "exportId": "0193f2ab-1111-7222-8333-444455556667",
   "createdAt": "2026-11-09T14:03:22Z",
   "createdBy": {
-    "app": "SaveForge Desktop",
+    "app": "SaveVault Desktop",
     "version": "0.2.0"
   },
   "mode": "incremental",

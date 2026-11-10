@@ -1,6 +1,6 @@
-# saveforge-specs
+# savevault-specs
 
-Normative specifications and JSON Schemas shared by every SaveForge component (Desktop, Registry, Community and API).
+Normative specifications and JSON Schemas shared by every SaveVault component (Desktop, Registry, Community and API).
 
 If two components exchange data, the contract lives here, not in either component. Consumers pin a tagged version of this repository.
 

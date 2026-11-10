@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://saveforge.github.io/saveforge-specs/schemas/vault/snapshot.v1.schema.json",
-  "title": "SaveForge snapshot v1",
+  "$id": "https://savevault.github.io/savevault-specs/schemas/vault/snapshot.v1.schema.json",
+  "title": "SaveVault snapshot v1",
   "description": "Immutable record of one backup of one game. Stored in the vault as snapshots/<gameId>/<snapshotId>.json and embedded in .gamesave manifests. Normative text: vault/SPEC.md.",
   "type": "object",
   "additionalProperties": false,

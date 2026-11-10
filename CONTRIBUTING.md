@@ -1,4 +1,4 @@
-# Contribuindo com o saveforge-specs
+# Contribuindo com o savevault-specs
 
 Este repositório é **normativo**: o que está escrito aqui é o contrato que o Desktop, o Registry, a Community e a API precisam cumprir. Por isso, uma mudança aqui pesa mais do que em um repositório de código.
 
@@ -22,7 +22,7 @@ Este repositório é **normativo**: o que está escrito aqui é o contrato que o
 ## Regras para schemas
 
 - Use JSON Schema **draft 2020-12**, que precisa compilar no modo `strict` do Ajv.
-- O `$id` segue o formato `https://saveforge.github.io/saveforge-specs/schemas/<área>/<nome>.vN.schema.json`.
+- O `$id` segue o formato `https://savevault.github.io/savevault-specs/schemas/<área>/<nome>.vN.schema.json`.
 - Objetos usam `additionalProperties: false`, a menos que a spec diga explicitamente que o objeto é extensível.
 - Todo campo tem `description`.
 - Definições reutilizáveis ficam em `common/schema/defs.v1.schema.json`.

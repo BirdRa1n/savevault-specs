@@ -1,13 +1,13 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://saveforge.github.io/saveforge-specs/schemas/gamesave/manifest.v1.schema.json",
-  "title": "SaveForge .gamesave manifest v1",
+  "$id": "https://savevault.github.io/savevault-specs/schemas/gamesave/manifest.v1.schema.json",
+  "title": "SaveVault .gamesave manifest v1",
   "description": "Content of manifest.json inside a .gamesave archive. Normative text: gamesave/SPEC.md.",
   "type": "object",
   "additionalProperties": false,
   "required": ["format", "formatVersion", "exportId", "createdAt", "createdBy", "mode", "source", "games"],
   "properties": {
-    "format": { "description": "Format marker.", "const": "saveforge.gamesave" },
+    "format": { "description": "Format marker. Writers use savevault.gamesave; saveforge.gamesave marks files written before the project was renamed.", "enum": ["savevault.gamesave", "saveforge.gamesave"] },
     "formatVersion": { "description": "Format major version.", "const": 1 },
     "exportId": { "description": "UUIDv7 of this export.", "$ref": "../common/defs.v1.schema.json#/$defs/uuid" },
     "createdAt": { "description": "Export time.", "$ref": "../common/defs.v1.schema.json#/$defs/timestamp" },

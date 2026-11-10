@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://saveforge.github.io/saveforge-specs/schemas/vault/vault.v1.schema.json",
-  "title": "SaveForge vault descriptor v1",
+  "$id": "https://savevault.github.io/savevault-specs/schemas/vault/vault.v1.schema.json",
+  "title": "SaveVault vault descriptor v1",
   "description": "Content of vault.json at the root of a vault. Normative text: vault/SPEC.md.",
   "type": "object",
   "additionalProperties": false,

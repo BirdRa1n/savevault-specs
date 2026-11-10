@@ -1,9 +1,9 @@
 {
-  "name": "saveforge-specs",
+  "name": "savevault-specs",
   "version": "0.1.0",
   "private": true,
   "license": "MIT",
-  "description": "Normative specifications and JSON Schemas for the SaveForge ecosystem",
+  "description": "Normative specifications and JSON Schemas for the SaveVault ecosystem",
   "type": "module",
   "engines": {
     "node": ">=20"

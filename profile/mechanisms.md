@@ -2,7 +2,7 @@
 
 A mechanism is a backup strategy **implemented in the Desktop**. A profile picks one with `mechanism.type` and configures it with `mechanism.params`.
 
-Adding a mechanism is a code change in `saveforge-desktop`, reviewed like any other code. The new mechanism is documented here and gets a branch in the schema's `mechanism` definition. A "new mechanism" contribution in the Community is a request for that work, not a payload.
+Adding a mechanism is a code change in `savevault-desktop`, reviewed like any other code. The new mechanism is documented here and gets a branch in the schema's `mechanism` definition. A "new mechanism" contribution in the Community is a request for that work, not a payload.
 
 | `type` | Since app | Purpose | `params` |
 |---|---|---|---|

@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://saveforge.github.io/saveforge-specs/schemas/registry/index.v1.schema.json",
-  "title": "SaveForge registry channel index v1",
+  "$id": "https://savevault.github.io/savevault-specs/schemas/registry/index.v1.schema.json",
+  "title": "SaveVault registry channel index v1",
   "description": "Current state of one registry channel. Signed by an online key. Normative text: registry/SPEC.md.",
   "type": "object",
   "additionalProperties": false,

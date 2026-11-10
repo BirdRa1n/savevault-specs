@@ -18,6 +18,8 @@ const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const PKCS8_PREFIX = Buffer.from("302e020100300506032b657004220420", "hex");
 
 function testKey(label) {
+  // The label keeps the former project name on purpose: changing it would
+  // rotate every test key, signature and vector.
   const seed = createHash("sha256").update(`saveforge-test-key:${label}`).digest();
   const privateKey = createPrivateKey({ key: Buffer.concat([PKCS8_PREFIX, seed]), format: "der", type: "pkcs8" });
   const rawPublic = createPublicKey(privateKey).export({ format: "der", type: "spki" }).subarray(-32);

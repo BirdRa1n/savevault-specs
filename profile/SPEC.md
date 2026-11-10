@@ -1,6 +1,6 @@
 # Game profile — v1 (draft)
 
-A **profile** declares where a game keeps its saves and how SaveForge backs them up. Profiles are data only: they never contain executable code.
+A **profile** declares where a game keeps its saves and how SaveVault backs them up. Profiles are data only: they never contain executable code.
 
 - Schema: [`schema/profile.v1.schema.json`](schema/profile.v1.schema.json)
 - Placeholders: [`placeholders.md`](placeholders.md)
@@ -10,7 +10,7 @@ A **profile** declares where a game keeps its saves and how SaveForge backs them
 
 ## 1. Formats
 
-Profiles are **authored** as YAML in `saveforge-registry` and **distributed** as JSON inside registry bundles. Consumers (the Desktop) read JSON only.
+Profiles are **authored** as YAML in `savevault-registry` and **distributed** as JSON inside registry bundles. Consumers (the Desktop) read JSON only.
 
 A YAML profile **MUST** convert to JSON that validates against the schema. Authors **MUST NOT** use YAML-only features: anchors, aliases, tags and non-string keys.
 
@@ -84,7 +84,7 @@ A rule captures the key, all its values and its subkeys. Registry rules are appl
 |---|---|
 | `requireGameClosed` | If `true`, consumers **MUST** refuse to back up while the game runs. Restores are always refused while the game runs, whatever this value. |
 | `processNames` | Process names that indicate the game is running. |
-| `cloudSync` | Stores whose cloud sync covers this game, for example `["steam"]`. Consumers use it to apply the user's launcher-cloud policy (prefer launcher / prefer SaveForge / ask). |
+| `cloudSync` | Stores whose cloud sync covers this game, for example `["steam"]`. Consumers use it to apply the user's launcher-cloud policy (prefer launcher / prefer SaveVault / ask). |
 | `maxBytes` | Expected upper bound of one backup. Consumers **SHOULD** ask before backing up more. |
 | `consistentGroups` | Sets of globs whose matches must be read together, for example a database and its journal. Consumers **MUST** re-read the whole group if any member changes during the read. |
 
@@ -99,7 +99,7 @@ New mechanisms are added by changing the Desktop code, never by shipping code in
 ## 8. Provenance and licensing
 
 - **`source`:**
-  - `saveforge` for profiles written for the official registry;
+  - `savevault` for profiles written for the official registry (`saveforge`, its former name, is still accepted and means the same);
   - `ludusavi` for profiles converted from the Ludusavi manifest;
   - `local` for user-created profiles that are never published.
 - **`license`:** an SPDX identifier.

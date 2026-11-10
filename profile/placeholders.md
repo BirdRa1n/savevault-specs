@@ -44,4 +44,4 @@ If a placeholder cannot be resolved on the current machine (for example `<base>`
 The names match the Ludusavi manifest wherever an equivalent exists, so conversion is mostly one-to-one. Some Ludusavi placeholders are not supported:
 
 - `<root>` and `<game>` are expressed through `<base>`;
-- `<winDir>` is not supported, because SaveForge never touches the Windows directory. The converter **MUST** drop such paths.
+- `<winDir>` is not supported, because SaveVault never touches the Windows directory. The converter **MUST** drop such paths.

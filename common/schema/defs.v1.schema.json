@@ -1,8 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://saveforge.github.io/saveforge-specs/schemas/common/defs.v1.schema.json",
-  "title": "SaveForge shared definitions v1",
-  "description": "Reusable definitions referenced by the other SaveForge schemas.",
+  "$id": "https://savevault.github.io/savevault-specs/schemas/common/defs.v1.schema.json",
+  "title": "SaveVault shared definitions v1",
+  "description": "Reusable definitions referenced by the other SaveVault schemas.",
   "$defs": {
     "sha256": {
       "description": "Lower-case hexadecimal SHA-256 digest.",

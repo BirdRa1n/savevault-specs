@@ -11,7 +11,7 @@ A `.gamesave` file is a ZIP archive (APPNOTE 6.3.x, ZIP64 allowed) with these en
 
 | Entry | Compression | Content |
 |---|---|---|
-| `mimetype` | **stored** | Exactly `application/vnd.saveforge.gamesave+zip`, without a trailing newline. It **MUST** be the first entry. |
+| `mimetype` | **stored** | Exactly `application/vnd.savevault.gamesave+zip`, without a trailing newline. It **MUST** be the first entry. Readers **MUST** also accept `application/vnd.saveforge.gamesave+zip` (see "Former name" below). |
 | `manifest.json` | deflate | UTF-8 JSON valid against `manifest.v1`. |
 | `manifest.json.sha256` | stored or deflate | 64 lower-case hex characters, the SHA-256 of the exact `manifest.json` bytes, optionally followed by one `\n`. |
 | `blobs/<sha256>` | deflate or stored | Original bytes of a file whose SHA-256 is `<sha256>`. One entry per distinct content. |
@@ -19,7 +19,8 @@ A `.gamesave` file is a ZIP archive (APPNOTE 6.3.x, ZIP64 allowed) with these en
 No other entries are allowed, except an optional `README.txt` for humans.
 
 - **File extension:** `.gamesave`.
-- **Media type:** `application/vnd.saveforge.gamesave+zip`.
+- **Media type:** `application/vnd.savevault.gamesave+zip`.
+- **Former name:** the project was called SaveForge before 0.3. Files from that time use the media type `application/vnd.saveforge.gamesave+zip` and the manifest `format` `saveforge.gamesave`. Writers **MUST** use the SaveVault values; readers **MUST** accept both.
 
 ## 2. Writing
 

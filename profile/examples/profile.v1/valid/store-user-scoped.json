@@ -15,5 +15,5 @@
   "backup": { "requireGameClosed": true, "cloudSync": ["steam"] },
   "mechanism": { "type": "store-user-scoped", "params": { "store": "steam" } },
   "compatibility": { "minAppVersion": "0.2.0" },
-  "provenance": { "source": "saveforge", "license": "CC-BY-SA-4.0" }
+  "provenance": { "source": "savevault", "license": "CC-BY-SA-4.0" }
 }

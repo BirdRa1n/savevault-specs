@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://saveforge.github.io/saveforge-specs/schemas/registry/signature.v1.schema.json",
-  "title": "SaveForge detached signature file v1",
+  "$id": "https://savevault.github.io/savevault-specs/schemas/registry/signature.v1.schema.json",
+  "title": "SaveVault detached signature file v1",
   "description": "Content of '<file>.sig'. Each signature is Ed25519 over the exact bytes of '<file>'. Normative text: registry/SPEC.md.",
   "type": "object",
   "additionalProperties": false,

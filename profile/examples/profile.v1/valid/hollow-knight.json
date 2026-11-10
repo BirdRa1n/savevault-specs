@@ -44,7 +44,7 @@
   "mechanism": { "type": "standard" },
   "compatibility": { "minAppVersion": "0.1.0" },
   "provenance": {
-    "source": "saveforge",
+    "source": "savevault",
     "license": "CC-BY-SA-4.0",
     "contributors": ["github:example-contributor"]
   }

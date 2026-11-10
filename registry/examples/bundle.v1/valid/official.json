@@ -7,8 +7,8 @@
   "notices": [
     {
       "license": "CC-BY-SA-4.0",
-      "attribution": "SaveForge Registry contributors",
-      "url": "https://github.com/SaveForge/saveforge-registry"
+      "attribution": "SaveVault Registry contributors",
+      "url": "https://github.com/SaveVault/savevault-registry"
     }
   ],
   "profiles": [
@@ -100,7 +100,7 @@
         "minAppVersion": "0.1.0"
       },
       "provenance": {
-        "source": "saveforge",
+        "source": "savevault",
         "license": "CC-BY-SA-4.0",
         "contributors": [
           "github:example-contributor"

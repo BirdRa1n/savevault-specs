@@ -16,5 +16,5 @@
   "revoked": [
     { "id": "example-rotating-slots", "revision": 2, "reason": "Wrong save directory on Linux; restored revision 1." }
   ],
-  "source": { "repository": "SaveForge/saveforge-registry", "commit": "a1b2c3d4e5f6" }
+  "source": { "repository": "SaveVault/savevault-registry", "commit": "a1b2c3d4e5f6" }
 }

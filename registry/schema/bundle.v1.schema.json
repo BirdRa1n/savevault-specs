@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://saveforge.github.io/saveforge-specs/schemas/registry/bundle.v1.schema.json",
-  "title": "SaveForge registry profile bundle v1",
+  "$id": "https://savevault.github.io/savevault-specs/schemas/registry/bundle.v1.schema.json",
+  "title": "SaveVault registry profile bundle v1",
   "description": "Decompressed content of a channel bundle. Integrity comes from the signed index (sha256), not from the bundle itself. Normative text: registry/SPEC.md.",
   "type": "object",
   "additionalProperties": false,
