@@ -48,6 +48,12 @@ Snapshots are immutable. The only permitted change is to the `pinned` and `label
   - `auto`, with a `trigger`;
   - `pre-restore`: taken automatically before every restore, so the restore can be undone;
   - `import`: snapshots that came from a `.gamesave`.
+- **`slot`:** the save slot the captured files belong to. A slot is a named line of progress of one game, for example a second character or a test run, that the user can switch to and continue later.
+  - A slot's current state is its **newest** snapshot, of any `kind`.
+  - A writer sets `slot` to the slot whose files are on disk when it captures them. That includes the `pre-restore` snapshot taken before switching to another slot, which therefore becomes the current state of the slot the user leaves.
+  - Snapshots without `slot` hold the game's unnamed progress.
+  - Which slot is on disk on a given machine is local state of the client, not part of the vault.
+  - Slot names are compared exactly (case-sensitive) and have no leading or trailing whitespace.
 - **Registry values:**
   - `REG_QWORD` values are decimal strings;
   - `REG_BINARY` values are base64;

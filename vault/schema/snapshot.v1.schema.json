@@ -27,6 +27,13 @@
       "enum": ["game-exit", "schedule", "file-change"]
     },
     "label": { "description": "Optional user-given name.", "type": "string", "minLength": 1, "maxLength": 200 },
+    "slot": {
+      "description": "Save slot (a named line of progress) the captured files belong to. Absent: the game's unnamed progress.",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 100,
+      "pattern": "^[^\\s\\u0000-\\u001F](?:[^\\u0000-\\u001F]*[^\\s\\u0000-\\u001F])?$"
+    },
     "pinned": { "description": "Pinned snapshots are never removed by retention.", "type": "boolean", "default": false },
     "machineId": { "description": "Random UUID identifying the installation that took the snapshot.", "$ref": "../common/defs.v1.schema.json#/$defs/uuid" },
     "appVersion": { "description": "Desktop version that took the snapshot.", "$ref": "../common/defs.v1.schema.json#/$defs/semver" },
